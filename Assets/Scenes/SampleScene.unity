@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.43975633, g: 0.4881823, b: 0.56839883, a: 1}
+  m_IndirectSpecularColor: {r: 0.43975618, g: 0.48818177, b: 0.56839794, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 30600974}
   - component: {fileID: 30600979}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Player Sphere
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1417,7 +1417,7 @@ GameObject:
   m_Component:
   - component: {fileID: 810668822}
   m_Layer: 0
-  m_Name: Block 3
+  m_Name: Blocks - Green
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2055,7 +2055,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1128783642}
   m_Layer: 0
-  m_Name: Block 2
+  m_Name: Blocks - Orange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2293,7 +2293,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1256723340}
   m_Layer: 0
-  m_Name: Block
+  m_Name: Blocks - Yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2737,7 +2737,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1655480921}
   m_Layer: 0
-  m_Name: Block 4
+  m_Name: Blocks - Purple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
