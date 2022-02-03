@@ -27,7 +27,6 @@ public class ApplesPlayer : MonoBehaviour
         else if (Input.GetKey(KeyCode.D)) rb.velocity = (MovementAxis * MovementSpeed * Input.GetAxis("Horizontal") * Time.deltaTime);
 
         //if the player is not moving, stops x and z velocity
-
         else rb.velocity -= new Vector3(rb.velocity.x, 0, rb.velocity.z);
     }
 
