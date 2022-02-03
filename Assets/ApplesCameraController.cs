@@ -7,8 +7,9 @@ public class ApplesCameraController : MonoBehaviour
 {
     [SerializeField, Range(0f, 30.0f)] float CameraDistance = 6;
     [SerializeField, Range(0f, 10.0f)] float CameraHeight = 1.5f;
-    [SerializeField] float CameraRotationTime = 1; //Time for the camera to rotat in seconds
-    [SerializeField] Transform playerSphere;
+    [SerializeField] float CameraRotationTime = .3f; //Time for the camera to rotat in seconds
+    [SerializeField] float CameraFlipTime = .3f; //Time for the camera to rotat in seconds
+    [SerializeField] ApplesPlayer PlayerController;
     [SerializeField] bool moving = false;
     private void Update()
     {
@@ -28,6 +29,9 @@ public class ApplesCameraController : MonoBehaviour
     //True = CW, False = CCW
     private void Rotate(bool CWorCCW)
     {
+        //prevents rotation if player is not at an intersection
+        if (!PlayerController.turnable) return;
+
         //prevents a rotation if the camera is already moving
         if (moving) return;
         moving = true;
@@ -47,11 +51,17 @@ public class ApplesCameraController : MonoBehaviour
         //This rotates the camera iether 90 degrees or -90 degrees, depending on CWorCCW
         //once the rotation is complete, the moving bool is turned back to false, allowing for another movement to be made
         transform.DORotate(new Vector3(0, transform.eulerAngles.y + (CWorCCW ? 90 : -90), 0), CameraRotationTime).SetEase(Ease.Linear).OnComplete(() => moving = false);
+
+        //Rotates the players movement axis to align with the new rotation
+        PlayerController.MovementAxis = CWorCCW ? -transform.forward : transform.forward;
     }
 
     private void JumpOver()
     {
-        //prevents a rotation if the camera is already moving
+        //prevents flip if player is not at an intersection
+        if (!PlayerController.turnable) return;
+
+        //prevents a flip if the camera is already moving
         if (moving) return;
         moving = true;
 
@@ -68,24 +78,30 @@ public class ApplesCameraController : MonoBehaviour
         float newRot = transform.eulerAngles.y+180;
 
         //moves the camera to the player
-        transform.DOLocalMove(midPos + transform.position, CameraRotationTime).SetEase(Ease.InQuad);
+        transform.DOLocalMoveX((midPos + transform.localPosition).x, CameraFlipTime).SetEase(Ease.InQuad);
+        transform.DOLocalMoveZ((midPos + transform.localPosition).z, CameraFlipTime).SetEase(Ease.InQuad);
         //rotates the camera down
-        transform.DORotate(new Vector3(90, newRot - 180, 0), CameraRotationTime).SetEase(Ease.InQuad);
+        transform.DORotate(new Vector3(90, newRot - 180, 0), CameraFlipTime).SetEase(Ease.InQuad);
 
         //moves the camera above the player.  Once this movement is complete, it initiats the next set of movements towards the opposite side of the player
-        transform.DOMoveY(midHeight + oldPos.y, CameraRotationTime).SetEase(Ease.OutQuad).OnComplete(() =>
+        transform.DOMoveY(midHeight + oldPos.y, CameraFlipTime).SetEase(Ease.OutQuad).OnComplete(() =>
         {
+            
             //This block of code occurs once the camera is over the player
 
-            transform.DOLocalMoveY(oldPos.y, CameraRotationTime).SetEase(Ease.InQuad);
-            transform.DOLocalMove(newPos+ oldPos, CameraRotationTime).SetEase(Ease.OutQuad).OnComplete(() => moving = false);
+            transform.DOLocalMoveY(oldPos.y, CameraFlipTime).SetEase(Ease.InQuad);
+            transform.DOLocalMove(newPos+ oldPos, CameraFlipTime).SetEase(Ease.OutQuad).OnComplete(() => moving = false);
 
             //an instant 180 rotation
             transform.DORotate(new Vector3(90, newRot, 0), 0);
 
             //rotates the camera back towards the player
-            transform.DORotate(new Vector3(0, newRot, 0), CameraRotationTime).SetEase(Ease.OutQuad);
+            transform.DORotate(new Vector3(0, newRot, 0), CameraFlipTime).SetEase(Ease.OutQuad);
+            
         });
+
+        //Rotates the players movement axis to align with the new rotation
+        PlayerController.MovementAxis *= -1;
     }
 
     private void OnValidate()
