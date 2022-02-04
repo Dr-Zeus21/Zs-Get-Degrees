@@ -42,7 +42,11 @@ public class ApplesPlayer : MonoBehaviour
     //Checks if the player is at an intersection
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Intersection") turnable = true;
+        if (other.tag == "Intersection")
+        {
+            turnable = true;
+            _currentIntersectionLoc = other.transform.position;
+        }
     }
 
     // exiting an intersection blocks the player from turning
