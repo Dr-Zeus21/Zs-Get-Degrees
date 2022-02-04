@@ -53,14 +53,11 @@ public class ApplesCameraController : MonoBehaviour
         transform.DORotate(new Vector3(0, transform.eulerAngles.y + (CWorCCW ? 90 : -90), 0), CameraRotationTime).SetEase(Ease.Linear).OnComplete(() => moving = false);
 
         //Rotates the players movement axis to align with the new rotation
-        PlayerController.MovementAxis = CWorCCW ? -transform.forward : transform.forward;
+        PlayerController.ChangeAxis(CWorCCW ? -transform.forward : transform.forward);
     }
 
     private void JumpOver()
     {
-        //prevents flip if player is not at an intersection
-        if (!PlayerController.turnable) return;
-
         //prevents a flip if the camera is already moving
         if (moving) return;
         moving = true;
@@ -101,7 +98,7 @@ public class ApplesCameraController : MonoBehaviour
         });
 
         //Rotates the players movement axis to align with the new rotation
-        PlayerController.MovementAxis *= -1;
+        PlayerController.ChangeAxis(PlayerController.MovementAxis *= -1);
     }
 
     private void OnValidate()

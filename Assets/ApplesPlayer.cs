@@ -10,24 +10,31 @@ public class ApplesPlayer : MonoBehaviour
     public float MovementSpeed = 15;
     public Vector3 MovementAxis = new Vector3(1,0,0);  //Player starts on the x axis.  if this changes, change this vector3
 
-    private Rigidbody rb;
+    //the location of the current intersection
+    private Vector3 _currentIntersectionLoc;
+    private Rigidbody _rb;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        //grapping the players rigidbody component
+        _rb = GetComponent<Rigidbody>();
     }
 
 
     private void FixedUpdate()
     {
         //leftward movement
-        if (Input.GetKey(KeyCode.A)) rb.velocity = (MovementAxis * MovementSpeed * Input.GetAxis("Horizontal") * Time.deltaTime);
+        //If the player is moving a horizontal movement key (like A or D or left/right arrows, or a controller stick), then Input.GetAxis("Horizontal") will go from 0 to 1, (or a number in between for a controller stick), thus making the entire calculation non-zero
+        //then it takes the axis its on (the x axis, z axis, -x axis, etc.) then multiplies it by the players movement speed
+        //them multiplies by Time.deltaTime
+        //then it adds the horizontal velocity, as otherwise horizontal velocity would stop when player movement stops.
+        _rb.velocity = (Input.GetAxis("Horizontal") * MovementAxis * MovementSpeed  * Time.deltaTime) + new Vector3(0,_rb.velocity.y,0);
+    }
 
-        //rightward movement
-        else if (Input.GetKey(KeyCode.D)) rb.velocity = (MovementAxis * MovementSpeed * Input.GetAxis("Horizontal") * Time.deltaTime);
-
-        //if the player is not moving, stops x and z velocity
-        else rb.velocity -= new Vector3(rb.velocity.x, 0, rb.velocity.z);
+    public void ChangeAxis(Vector3 newAxis)
+    {
+        if (turnable) transform.position = new Vector3(_currentIntersectionLoc.x, transform.position.y, _currentIntersectionLoc.z);
+        MovementAxis = newAxis;
     }
 
 
