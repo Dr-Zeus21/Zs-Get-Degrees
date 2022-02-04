@@ -13,6 +13,7 @@ public class ApplesPlayer : MonoBehaviour
     //the location of the current intersection
     private Vector3 _currentIntersectionLoc;
     private Rigidbody _rb;
+    
 
     private void Awake()
     {
@@ -37,7 +38,6 @@ public class ApplesPlayer : MonoBehaviour
         if (turnable) transform.position = new Vector3(_currentIntersectionLoc.x, transform.position.y, _currentIntersectionLoc.z);
         MovementAxis = newAxis;
     }
-
 
     //Checks if the player is at an intersection
     private void OnTriggerEnter(Collider other)

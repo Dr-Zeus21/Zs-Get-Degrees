@@ -881,7 +881,7 @@ GameObject:
   - component: {fileID: 471634402}
   m_Layer: 0
   m_Name: Building 2 (1)
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1071,10 +1071,9 @@ GameObject:
   - component: {fileID: 539810539}
   - component: {fileID: 539810538}
   - component: {fileID: 539810537}
-  - component: {fileID: 539810540}
   m_Layer: 0
   m_Name: Building 1
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1156,18 +1155,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 539810535}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &539810540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 539810535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 194f00c76576d124e88085d8d357ecb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &690542267
 GameObject:
   m_ObjectHideFlags: 0
@@ -1591,7 +1578,10 @@ MonoBehaviour:
   CameraRotationTime: 0.4
   CameraFlipTime: 0.3
   PlayerController: {fileID: 30600980}
+  DisappearingRange: 3
   moving: 0
+  _adjacentBuildings: []
+  PrintDistance: 0
 --- !u!136 &865551086
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1692,10 +1682,9 @@ GameObject:
   - component: {fileID: 936940786}
   - component: {fileID: 936940785}
   - component: {fileID: 936940784}
-  - component: {fileID: 936940787}
   m_Layer: 0
   m_Name: Building 1 (1)
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1777,18 +1766,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 936940782}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &936940787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 936940782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 194f00c76576d124e88085d8d357ecb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1928,7 +1905,7 @@ GameObject:
   - component: {fileID: 1005963825}
   m_Layer: 0
   m_Name: Building 1
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2247,10 +2224,9 @@ GameObject:
   - component: {fileID: 1208764570}
   - component: {fileID: 1208764569}
   - component: {fileID: 1208764568}
-  - component: {fileID: 1208764571}
   m_Layer: 0
   m_Name: Building 2
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2332,18 +2308,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1208764566}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1208764571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1208764566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 194f00c76576d124e88085d8d357ecb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1226670378
 GameObject:
   m_ObjectHideFlags: 0
@@ -2762,7 +2726,7 @@ GameObject:
   - component: {fileID: 1612961193}
   m_Layer: 0
   m_Name: Building 2
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2891,7 +2855,7 @@ GameObject:
   - component: {fileID: 1669821816}
   m_Layer: 0
   m_Name: Building 1
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2987,7 +2951,7 @@ GameObject:
   - component: {fileID: 1740323042}
   m_Layer: 0
   m_Name: Building 1 (1)
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3122,7 +3086,7 @@ GameObject:
   - component: {fileID: 1921285221}
   m_Layer: 0
   m_Name: Building 2
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3314,7 +3278,7 @@ GameObject:
   - component: {fileID: 2108850921}
   m_Layer: 0
   m_Name: Building 1 (1)
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
