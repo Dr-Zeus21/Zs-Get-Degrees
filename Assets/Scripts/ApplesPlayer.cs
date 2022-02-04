@@ -6,9 +6,9 @@ using UnityEditor;
 public class ApplesPlayer : MonoBehaviour
 {
     // Public Variables
-    public bool turnable = false;
     public float MovementSpeed = 15;
-    public Vector3 MovementAxis = new Vector3(1,0,0);  //Player starts on the x axis.  if this changes, change this vector3
+    [ReadOnly] public bool turnable = false;
+    [ReadOnly] public Vector3 MovementAxis = new Vector3(1,0,0);  //Player starts on the x axis.  if this changes, change this vector3
 
     //the location of the current intersection
     private Vector3 _currentIntersectionLoc;
@@ -33,6 +33,7 @@ public class ApplesPlayer : MonoBehaviour
 
     public void ChangeAxis(Vector3 newAxis)
     {
+        //if at an intersection, move to the center of the intersection
         if (turnable) transform.position = new Vector3(_currentIntersectionLoc.x, transform.position.y, _currentIntersectionLoc.z);
         MovementAxis = newAxis;
     }

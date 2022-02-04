@@ -267,8 +267,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99db57ede4ebc414eb458f2f71180f45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnable: 0
   MovementSpeed: 350
+  turnable: 0
   MovementAxis: {x: 1, y: 0, z: 0}
 --- !u!1 &35838455
 GameObject:
@@ -282,7 +282,6 @@ GameObject:
   - component: {fileID: 35838459}
   - component: {fileID: 35838458}
   - component: {fileID: 35838457}
-  - component: {fileID: 35838460}
   m_Layer: 0
   m_Name: Building 1 (2)
   m_TagString: Building
@@ -367,18 +366,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 35838455}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &35838460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 35838455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 194f00c76576d124e88085d8d357ecb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &63596362
 GameObject:
   m_ObjectHideFlags: 0
@@ -719,7 +706,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &386454369
 Transform:
   m_ObjectHideFlags: 0
@@ -1382,7 +1369,6 @@ GameObject:
   - component: {fileID: 760344187}
   - component: {fileID: 760344186}
   - component: {fileID: 760344185}
-  - component: {fileID: 760344189}
   m_Layer: 0
   m_Name: Building 2 (1)
   m_TagString: Building
@@ -1467,18 +1453,6 @@ Transform:
   m_Father: {fileID: 1256723340}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &760344189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 760344184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 194f00c76576d124e88085d8d357ecb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &810668821
 GameObject:
   m_ObjectHideFlags: 0
@@ -1525,6 +1499,8 @@ GameObject:
   - component: {fileID: 865551084}
   - component: {fileID: 865551083}
   - component: {fileID: 865551085}
+  - component: {fileID: 865551086}
+  - component: {fileID: 865551087}
   m_Layer: 0
   m_Name: Follow Camera
   m_TagString: MainCamera
@@ -1616,6 +1592,36 @@ MonoBehaviour:
   CameraFlipTime: 0.3
   PlayerController: {fileID: 30600980}
   moving: 0
+--- !u!136 &865551086
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865551081}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.44
+  m_Height: 3.8
+  m_Direction: 0
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &865551087
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865551081}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &907654559
 GameObject:
   m_ObjectHideFlags: 0
@@ -2112,7 +2118,6 @@ GameObject:
   - component: {fileID: 1107951534}
   - component: {fileID: 1107951533}
   - component: {fileID: 1107951532}
-  - component: {fileID: 1107951536}
   m_Layer: 0
   m_Name: Building 1
   m_TagString: Building
@@ -2197,18 +2202,6 @@ Transform:
   m_Father: {fileID: 1256723340}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1107951536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1107951531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 194f00c76576d124e88085d8d357ecb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1128783641
 GameObject:
   m_ObjectHideFlags: 0
@@ -3223,7 +3216,6 @@ GameObject:
   - component: {fileID: 2039087843}
   - component: {fileID: 2039087842}
   - component: {fileID: 2039087841}
-  - component: {fileID: 2039087840}
   m_Layer: 0
   m_Name: Building 1 (1)
   m_TagString: Building
@@ -3245,18 +3237,6 @@ Transform:
   m_Father: {fileID: 1256723340}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2039087840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2039087837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 194f00c76576d124e88085d8d357ecb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &2039087841
 BoxCollider:
   m_ObjectHideFlags: 0

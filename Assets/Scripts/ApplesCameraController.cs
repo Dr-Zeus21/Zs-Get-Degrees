@@ -10,7 +10,7 @@ public class ApplesCameraController : MonoBehaviour
     [SerializeField] float CameraRotationTime = .3f; //Time for the camera to rotat in seconds
     [SerializeField] float CameraFlipTime = .3f; //Time for the camera to rotat in seconds
     [SerializeField] ApplesPlayer PlayerController;
-    [SerializeField] bool moving = false;
+    [SerializeField, ReadOnly] bool moving = false;
     private void Update()
     {
         //CW rotation
@@ -106,5 +106,17 @@ public class ApplesCameraController : MonoBehaviour
         if (moving) return;
         //Allows the sliders to affect camera pos in real time
         transform.localPosition = new Vector3(-(transform.forward * CameraDistance).x, CameraHeight, -(transform.forward * CameraDistance).z);
+    }
+
+
+    //These functions turn off a buildings ability to be seen, and cause them to only create shadows
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Building") other.gameObject.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Building") other.gameObject.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
     }
 }
