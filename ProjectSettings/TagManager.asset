@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Building
   - Intersection
+  - Ground
+  - Slow
   layers:
   - Default
   - TransparentFX
