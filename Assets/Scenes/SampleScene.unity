@@ -1486,6 +1486,7 @@ GameObject:
   - component: {fileID: 865551084}
   - component: {fileID: 865551083}
   - component: {fileID: 865551085}
+  - component: {fileID: 865551088}
   - component: {fileID: 865551086}
   - component: {fileID: 865551087}
   m_Layer: 0
@@ -1578,10 +1579,7 @@ MonoBehaviour:
   CameraRotationTime: 0.4
   CameraFlipTime: 0.3
   PlayerController: {fileID: 30600980}
-  DisappearingRange: 3
   moving: 0
-  _adjacentBuildings: []
-  PrintDistance: 0
 --- !u!136 &865551086
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1612,6 +1610,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &865551088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865551081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb219f681e288464992f72efba9285f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DisappearingRange: 3
+  _adjacentBuildings: []
+  PrintDistance: 0
 --- !u!1 &907654559
 GameObject:
   m_ObjectHideFlags: 0
