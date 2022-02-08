@@ -24,6 +24,7 @@ public class CameraAdjacencyDisappearing : MonoBehaviour
             if (PrintDistance)
             {
                 print(fromCamToEdge + " " + building.name);
+                print(building.GetComponent<MeshRenderer>().material.GetColor("_Color"));
                 PrintDistance = false;
             }
 
@@ -31,9 +32,9 @@ public class CameraAdjacencyDisappearing : MonoBehaviour
             //for example, if the buildings edge is 1 unit away, and the disappearing range is set to 3, the transparency will be 1/3, or .33, which results in the object being 66% see-through
             if (fromCamToEdge < DisappearingRange)
             {
-                Material buildingMaterial = building.GetComponent<MeshRenderer>().materials[0];
+                Material buildingMaterial = building.GetComponent<MeshRenderer>().material;
                 Color buildingColor = buildingMaterial.color;
-                building.GetComponent<MeshRenderer>().materials[0].SetColor("_Color", new Color(buildingColor.r, buildingColor.g, buildingColor.b, fromCamToEdge / DisappearingRange));
+                building.GetComponent<MeshRenderer>().material.color = new Color(buildingColor.r, buildingColor.g, buildingColor.b, fromCamToEdge / DisappearingRange);
             }
         }
     }
@@ -50,8 +51,8 @@ public class CameraAdjacencyDisappearing : MonoBehaviour
         {
             //when a building is no longer adjacent, remove them from the list and set their transparency to 1
             _adjacentBuildings.Remove(other.gameObject);
-            Color buildingColor = other.gameObject.GetComponent<MeshRenderer>().materials[0].color;
-            other.gameObject.GetComponent<MeshRenderer>().materials[0].SetColor("_Color", new Color(buildingColor.r, buildingColor.g, buildingColor.b, 1));
+            Color buildingColor = other.gameObject.GetComponent<MeshRenderer>().material.color;
+            other.gameObject.GetComponent<MeshRenderer>().material.color = new Color(buildingColor.r, buildingColor.g, buildingColor.b, 1);
         }
 
 

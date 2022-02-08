@@ -8,6 +8,7 @@ TagManager:
   - Intersection
   - Ground
   - Slow
+  - Zombie
   layers:
   - Default
   - TransparentFX
