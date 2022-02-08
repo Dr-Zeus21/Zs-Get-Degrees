@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - Slow
   - Zombie
+  - Converted
   layers:
   - Default
   - TransparentFX

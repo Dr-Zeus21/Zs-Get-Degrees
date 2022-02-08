@@ -31,6 +31,14 @@ public class PlayerCombat : MonoBehaviour
     //how far attack knocks back zombies;
     [SerializeField] float attackKnockback;
 
+    //how long injection should take
+    [SerializeField] float InjectionTime;
+    [SerializeField] bool injecting = false;
+
+
+    [SerializeField] Transform cam;
+    [SerializeField] Transform slash;
+
     Rigidbody _rb;
     private void Awake()
     {
@@ -49,6 +57,7 @@ public class PlayerCombat : MonoBehaviour
         if (Input.GetAxis("Horizontal") > 0) facingRight = true;
         else if (Input.GetAxis("Horizontal") < 0) facingRight = false;
         if (Input.GetKeyDown(KeyCode.Space)) AttackDamage();
+        if (Input.GetKeyDown(KeyCode.C)) AttackConvert();
 
         GetComponent<Renderer>().material.SetFloat("Invincible", invincible ? 1 : 0);
     }
@@ -56,7 +65,22 @@ public class PlayerCombat : MonoBehaviour
     //this attack attempts to damage the zombie rather than cure
     public void AttackDamage()
     {
-        if (!offCooldown) return;  //if the players attack is on cooldown, cancel attack
+        if (!offCooldown || injecting) return;  //if the players attack is on cooldown, cancel attack
+
+        //turns on the slash graphical effect
+        slash.GetChild(0).GetComponent<Renderer>().material.color = Color.white;
+        slash.eulerAngles = new Vector3(0, cam.eulerAngles.y, 0);
+        slash.localScale = Vector3.Scale(((facingRight ? 1 : -1) * new Vector3(1, 0, 1)), slash.transform.localScale.Abs()) + new Vector3(0,1,0);
+        slash.gameObject.SetActive(true);
+        //turns off the slash effect after a set amount of time
+        Timer.SimpleTimer(() => slash.gameObject.SetActive(false), .2f);
+
+        //Sets the attack to be on cooldown
+        offCooldown = false;
+
+        Timer.SimpleTimer(() => offCooldown = true, attackCooldown);//after attackCooldown seconds, the player can attack again
+
+        //NOW the attack checks for enemies
         Collider[] enemies =  Physics.OverlapSphere(transform.position, attackRange).Where(col => col.gameObject.tag == "Zombie").ToArray();
         enemies = enemies.Where(enemy => Mathf.Abs(Vector3.Angle(enemy.transform.position - transform.position, player.MovementAxis * (facingRight ? 1 : -1))) < (attackAngle / 2)).ToArray();
         if (enemies.Length == 0) return;
@@ -66,29 +90,45 @@ public class PlayerCombat : MonoBehaviour
             enemy.GetComponent<Zombie>().Damage(attackDamage);
             enemy.GetComponent<Rigidbody>().AddForce(Vector3.Normalize(enemy.transform.position - transform.position) * attackKnockback, ForceMode.Impulse);
         }
-
-
-
-        Timer.SimpleTimer(() => offCooldown = true, attackCooldown);//after attackCooldown seconds, the player can attack again
     }
 
     //this attack attempts to convert zombies to human
     public void AttackConvert()
     {
-        if (!offCooldown) return;  //if the players attack is on cooldown, cancel attack
+        if (!offCooldown || injecting) return;  //if the players attack is on cooldown, cancel attack
+
+        //turns on the slash graphical effect
+        slash.GetChild(0).GetComponent<Renderer>().material.color = Color.green;
+        slash.eulerAngles = new Vector3(0, cam.eulerAngles.y, 0);
+        slash.localScale = Vector3.Scale(((facingRight ? 1 : -1) * new Vector3(1, 0, 1)), slash.transform.localScale.Abs()) + new Vector3(0, 1, 0);
+        slash.gameObject.SetActive(true);
+        //turns off the slash effect after a set amount of time
+        Timer.SimpleTimer(() => slash.gameObject.SetActive(false), .2f);
+
+        //Sets the attack to be on cooldown
+        offCooldown = false;
+
+        Timer.SimpleTimer(() => offCooldown = true, attackCooldown);//after attackCooldown seconds, the player can attack again
+
+
         Collider[] enemies = Physics.OverlapSphere(transform.position, attackRange).Where(col => col.gameObject.tag == "Zombie").ToArray();
-        enemies = enemies.Where(enemy => Mathf.Abs(Vector3.Angle(enemy.transform.position - transform.position, player.MovementAxis * (facingRight ? 1 : -1))) < (attackAngle / 2)).ToArray();
+        enemies = enemies.Where(enemy => Mathf.Abs(Vector3.Angle(enemy.transform.position - transform.position, player.MovementAxis * (facingRight ? 1 : -1))) < (attackAngle / 2) 
+        && enemy.GetComponent<Zombie>().convertible).ToArray();
         if (enemies.Length == 0) return;
         //print(Vector2.Angle((enemies[0].transform.position - transform.position).XZ(), (player.MovementAxis * (facingRight ? 1 : -1)).XZ()));
         foreach (var enemy in enemies)
         {
             enemy.GetComponent<Zombie>().Damage(attackDamage);
-            //enemy.GetComponent<Rigidbody>
+            enemy.GetComponent<Zombie>().StartConversion(InjectionTime);
         }
-
-
-
-        Timer.SimpleTimer(() => offCooldown = true, attackCooldown);//after attackCooldown seconds, the player can attack again
+        injecting = true;
+        player.canMove = false;
+        Timer.SimpleTimer(() =>
+        {
+            player.canMove = true;
+            injecting = false;
+        }
+        , InjectionTime); //must convert to couroutine to allow for cancelation upon taking damage OR test using a dotween along with the Kill() method
     }
 
     private void OnDrawGizmos()

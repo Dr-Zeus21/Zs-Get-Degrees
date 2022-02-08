@@ -34,6 +34,7 @@ Material:
     m_Ints: []
     m_Floats:
     - ConversionRate: 0
+    - Convertible: 0
     m_Colors:
     - BaseColor: {r: 0.04777093, g: 0.6792453, b: 0, a: 0}
     - HumanColor: {r: 1, g: 1, b: 1, a: 0}

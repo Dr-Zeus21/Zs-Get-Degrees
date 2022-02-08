@@ -6,10 +6,11 @@ using System.Linq;
 
 public class NavMeshNavigation : MonoBehaviour
 {
-    private NavMeshAgent navMA;
-    [SerializeField] Transform destination;
+    NavMeshAgent navMA;
+    public Transform destination;
     [SerializeField] List<SlowField> slows;
-    [SerializeField] float baseSpeed;
+    public bool canMove = true;
+    public float baseSpeed;
 
     private void Awake()
     {
@@ -19,6 +20,11 @@ public class NavMeshNavigation : MonoBehaviour
     private void Update()
     {
         navMA.destination = destination.position;
+        if(!canMove)
+        {
+            navMA.speed = 0;
+            return;
+        }
         if (slows.Count > 0) navMA.speed = (baseSpeed * slows.OrderBy(slow => slow.SlowPercent()).First().SlowPercent());
         else navMA.speed = baseSpeed;
     }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 public class Syringe : MonoBehaviour
 {
@@ -22,13 +23,18 @@ public class Syringe : MonoBehaviour
     }
     public void StartInjection(float time)
     {
-        pusher.DOMove(pusherEndPoint.position, time);
+        StartInjection(time, () => { });
+    }
+
+    public void StartInjection(float time, Action onComplete)
+    {
+        pusher.DOLocalMove(pusherEndPoint.localPosition, time).SetEase(Ease.Linear);
         DOTween.To(() => FillAmount, (x) =>
         {
             _mat.SetFloat("Fill_amount", x);
             FillAmount = x;
         }
-            , 0, time);
+            , 0, time).SetEase(Ease.Linear).OnComplete(()=>onComplete.Invoke());
     }
 
     public void ResetInjection()
