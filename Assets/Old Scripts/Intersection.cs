@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Intersection : MonoBehaviour
@@ -24,7 +22,7 @@ public class Intersection : MonoBehaviour
     // entering an intersection allows the player to turn
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if (other.tag == "Player")
         {
             player.turnable = true;
             playerInside = true;
@@ -34,7 +32,7 @@ public class Intersection : MonoBehaviour
     // exiting an intersection blocks the player from turning
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Player")
+        if (other.tag == "Player")
         {
             player.turnable = false;
             playerInside = false;

@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
-using System;
+using UnityEngine;
 
 public class ApplesCameraController : MonoBehaviour
 {
@@ -15,7 +12,7 @@ public class ApplesCameraController : MonoBehaviour
     private void Update()
     {
         //CW rotation
-        if (Input.GetKey(KeyCode.Q))  Rotate(true);
+        if (Input.GetKey(KeyCode.Q)) Rotate(true);
 
         //CCW rotation
         if (Input.GetKey(KeyCode.E)) Rotate(false);
@@ -24,7 +21,7 @@ public class ApplesCameraController : MonoBehaviour
         if (Input.GetKey(KeyCode.R)) JumpOver();
 
 
-        
+
     }
 
 
@@ -70,12 +67,12 @@ public class ApplesCameraController : MonoBehaviour
         Vector3 oldPos = transform.localPosition;
 
         //the aimed-for middle position above the player
-        float midHeight = (CameraHeight*3f);
+        float midHeight = (CameraHeight * 3f);
         Vector3 midPos = transform.forward * CameraDistance;
 
         //The aimed-for new height, position, and rotation of the camera
         Vector3 newPos = transform.forward * (CameraDistance * 2);
-        float newRot = transform.eulerAngles.y+180;
+        float newRot = transform.eulerAngles.y + 180;
 
         //moves the camera to the player
         transform.DOLocalMoveX((midPos + transform.localPosition).x, CameraFlipTime).SetEase(Ease.InQuad);
@@ -86,18 +83,18 @@ public class ApplesCameraController : MonoBehaviour
         //moves the camera above the player.  Once this movement is complete, it initiats the next set of movements towards the opposite side of the player
         transform.DOMoveY(midHeight + oldPos.y, CameraFlipTime).SetEase(Ease.OutQuad).OnComplete(() =>
         {
-            
+
             //This block of code occurs once the camera is over the player
 
             transform.DOLocalMoveY(oldPos.y, CameraFlipTime).SetEase(Ease.InQuad);
-            transform.DOLocalMove(newPos+ oldPos, CameraFlipTime).SetEase(Ease.OutQuad).OnComplete(() => moving = false);
+            transform.DOLocalMove(newPos + oldPos, CameraFlipTime).SetEase(Ease.OutQuad).OnComplete(() => moving = false);
 
             //an instant 180 rotation
             transform.DORotate(new Vector3(90, newRot, 0), 0);
 
             //rotates the camera back towards the player
             transform.DORotate(new Vector3(0, newRot, 0), CameraFlipTime).SetEase(Ease.OutQuad);
-            
+
         });
 
         //Rotates the players movement axis to align with the new rotation
@@ -112,7 +109,7 @@ public class ApplesCameraController : MonoBehaviour
     }
 
 
-    
+
 
     /*  THIS BLOCK MAKES THE BUILDINGS DISAPPEAR COMPLETELY
     //These functions turn off a buildings ability to be seen, and cause them to only create shadows

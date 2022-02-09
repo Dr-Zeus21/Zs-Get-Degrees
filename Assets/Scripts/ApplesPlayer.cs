@@ -1,15 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
-using UnityEditor;
 
 public class ApplesPlayer : MonoBehaviour
 {
     // Public Variables
     public float MovementSpeed = 15;
     [ReadOnly] public bool turnable = false;
-    [ReadOnly] public Vector3 MovementAxis = new Vector3(1,0,0);  //Player starts on the x axis.  if this changes, change this vector3
+    [ReadOnly] public Vector3 MovementAxis = new Vector3(1, 0, 0);  //Player starts on the x axis.  if this changes, change this vector3
 
     //the location of the current intersection
     Vector3 _currentIntersectionLoc;
@@ -21,7 +17,7 @@ public class ApplesPlayer : MonoBehaviour
     //if the player cant move, this is true
     public bool canMove = true;
 
-    
+
 
 
 
@@ -34,7 +30,7 @@ public class ApplesPlayer : MonoBehaviour
         //grabbing the material of the player
         _mat = GetComponent<Renderer>().material;
 
-        
+
     }
 
 
@@ -45,7 +41,7 @@ public class ApplesPlayer : MonoBehaviour
         //then it takes the axis its on (the x axis, z axis, -x axis, etc.) then multiplies it by the players movement speed
         //them multiplies by Time.deltaTime
         //then it adds the horizontal velocity, as otherwise horizontal velocity would stop when player movement stops.
-        _rb.velocity = ((Input.GetAxis("Horizontal") * MovementAxis * MovementSpeed  * Time.deltaTime) + new Vector3(0,_rb.velocity.y,0))*canMove.Bool2Int();
+        _rb.velocity = ((Input.GetAxis("Horizontal") * MovementAxis * MovementSpeed * Time.deltaTime) + new Vector3(0, _rb.velocity.y, 0)) * canMove.Bool2Int();
     }
 
     public void ChangeAxis(Vector3 newAxis)

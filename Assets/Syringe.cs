@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
 using System;
+using UnityEngine;
 
 public class Syringe : MonoBehaviour
 {
@@ -34,7 +32,7 @@ public class Syringe : MonoBehaviour
             _mat.SetFloat("Fill_amount", x);
             FillAmount = x;
         }
-            , 0, time).SetEase(Ease.Linear).OnComplete(()=>onComplete.Invoke());
+            , 0, time).SetEase(Ease.Linear).OnComplete(() => onComplete.Invoke());
     }
 
     public void ResetInjection()

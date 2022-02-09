@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Linq;
 
 public class NavMeshNavigation : MonoBehaviour
 {
@@ -20,7 +19,7 @@ public class NavMeshNavigation : MonoBehaviour
     private void Update()
     {
         navMA.destination = destination.position;
-        if(!canMove)
+        if (!canMove)
         {
             navMA.speed = 0;
             return;

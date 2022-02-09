@@ -1,14 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
 public class CameraController : MonoBehaviour
 {
     // Serialized Fields
     [SerializeField] static float cameraVerticalOffset = 2f;
     [SerializeField] static float cameraHorizontalOffset = 6f;
-    
+
     // Public Variables
     public Player player;
     public float targetAngle; // stores angle camera is moving toward
@@ -29,11 +27,11 @@ public class CameraController : MonoBehaviour
     private float angle0 = 0;
     private float angle1 = 90;
     private float angle2 = 180;
-    private float angle3 = -90; 
+    private float angle3 = -90;
     private int angleTracker, offsetTracker = 0;
 
-     // currentPosition used to store desired camera position during a transition
-     // endPosition used to store desired camera position after a transition
+    // currentPosition used to store desired camera position during a transition
+    // endPosition used to store desired camera position after a transition
     private Vector3 playerPosition, currentPosition, endPosition;
     private float panSpeed = 40f; // speed of camera pan
 
@@ -69,7 +67,7 @@ public class CameraController : MonoBehaviour
             ReverseCamera();
             StopAllCoroutines();
             StartCoroutine(CameraCoroutine(targetAngle));
-        }   
+        }
 
         // Camera tracking relative to motion axis
         if ((!player.turning && !player.reversing) && player.turned == 0 || player.turned == 2)
@@ -90,7 +88,7 @@ public class CameraController : MonoBehaviour
     public void TurnCamera()
     {
         // increments tracker to turn CW
-        if (looper !=0)
+        if (looper != 0)
         {
             if (offsetTracker < 3)
                 offsetTracker++;
@@ -107,13 +105,13 @@ public class CameraController : MonoBehaviour
         // sets end position and target angle appropriately
         endPosition = player.transform.position + offsets[offsetTracker];
         targetAngle = angles[angleTracker];
-        
+
         // camera movement speed * relative multiplier
         var step = panSpeed * multiplier * Time.deltaTime;
 
         // keep moving to final destination, once there reset player.turning
         if (transform.position != endPosition)
-            transform.position = 
+            transform.position =
                 Vector3.MoveTowards(transform.position, endPosition, step);
         else
         {
@@ -126,7 +124,7 @@ public class CameraController : MonoBehaviour
     public void ReverseCamera()
     {
         // decrements trackers to turn CCW
-        if (looper !=0)
+        if (looper != 0)
         {
             if (offsetTracker > 0)
                 offsetTracker--;
@@ -146,25 +144,25 @@ public class CameraController : MonoBehaviour
 
         // camera movement speed
         var step = panSpeed * Time.deltaTime;
-        
+
         // keep moving to final destination, once there reset player.reversing
         if (transform.position != endPosition)
-            transform.position = 
-                Vector3.MoveTowards(transform.position, endPosition, step);           
+            transform.position =
+                Vector3.MoveTowards(transform.position, endPosition, step);
         else
             player.reversing = false;
     }
 
     // Coroutine to make a smooth rotation
     IEnumerator CameraCoroutine(float targetAngle)
-          {
-              // Updates camera's y rotation each update using Slerp, which rotates it about a sphere
-              while (transform.rotation.y != targetAngle)
-              {
-                  transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, targetAngle, 0f), 15f * Time.deltaTime);
-                  yield return null;
-              }
-              transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
-              yield return null;
-          }
+    {
+        // Updates camera's y rotation each update using Slerp, which rotates it about a sphere
+        while (transform.rotation.y != targetAngle)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, targetAngle, 0f), 15f * Time.deltaTime);
+            yield return null;
+        }
+        transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+        yield return null;
+    }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -36,7 +34,7 @@ public class Player : MonoBehaviour
         // Registers for left and right movement
         var moveRight = 0;
         var moveLeft = 0;
-        
+
         // Inputs for left and right movement
         if (Input.GetKey(KeyCode.D))
             moveRight = 1;
@@ -78,7 +76,7 @@ public class Player : MonoBehaviour
         }
 
         // Calculate and store change in X velocity
-        var deltaX = (moveRight - moveLeft) * moveSpeed; 
+        var deltaX = (moveRight - moveLeft) * moveSpeed;
         if (turned == 1 || turned == 2)
             deltaX = -deltaX;
 
@@ -91,5 +89,5 @@ public class Player : MonoBehaviour
         // Change player's rigidBody velocity to move
         rigidBody.velocity = move;
     }
-        
+
 }

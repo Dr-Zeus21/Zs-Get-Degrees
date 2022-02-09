@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
 using System.Diagnostics;
+using System.Linq;
+using UnityEngine;
 
 public class GridGenerator : MonoBehaviour
 {
@@ -55,8 +54,8 @@ public class GridGenerator : MonoBehaviour
 
                 }
             }
-            stopWatch.Stop(); 
-            print("done: "+ stopWatch.Elapsed);
+            stopWatch.Stop();
+            print("done: " + stopWatch.Elapsed);
             print(gridCosts.Count);
         }
     }
@@ -64,12 +63,12 @@ public class GridGenerator : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         // Draw a semitransparent blue cube at the transforms position
-        
+
         if (!DisplayGrid) return;
         foreach (var pos in gridCosts)
         {
             Gizmos.color = Color.Lerp(Color.green, Color.red, (float)pos.Value / 100);
-            Gizmos.DrawCube(new Vector3(pos.Key.x, BottomLeftPoint.transform.position.y + (Height/2), pos.Key.y), new Vector3(GridSize, Height, GridSize));
+            Gizmos.DrawCube(new Vector3(pos.Key.x, BottomLeftPoint.transform.position.y + (Height / 2), pos.Key.y), new Vector3(GridSize, Height, GridSize));
         }
     }
 
