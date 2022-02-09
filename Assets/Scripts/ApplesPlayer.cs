@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class ApplesPlayer : MonoBehaviour
 {
     // Public Variables

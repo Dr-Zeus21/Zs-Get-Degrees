@@ -1,26 +1,34 @@
 using DG.Tweening;
 using System.Linq;
 using UnityEngine;
+using RengeGames.HealthBars;
 
+[DisallowMultipleComponent]
 public class PlayerCombat : MonoBehaviour
 {
     ApplesPlayer player;
+    BoxCollider2D hitBox;
+
+    //Player Max and current health
+    [SerializeField] int MaxHealth;
+    [SerializeField] int currentHealth;
+
+    [Header("Atack Stats")]
+    //attack stats
+    [SerializeField] int attackDamage = 1;
+    [SerializeField] float attackCooldown = 1; //how many seconds the player must wait until they can attack
+    [SerializeField, ReadOnly] float cooldownPercent = 1; //what percent offCooldown is the player (if this is one, the player can attack)
+    [SerializeField] bool offCooldown = true;  //if this is true, the player can attack
     [SerializeField] float attackAngle = 180;
     [SerializeField] float attackRange = 4;
-    [SerializeField] int attackDamage = 1;
-    [SerializeField] float attackCooldown = 1;
-    [SerializeField] bool offCooldown = true;  //if this is true, the player can attack
+
+    [Header("")]
     [SerializeField, ReadOnly] bool facingRight;
-    BoxCollider2D hitBox;
 
     //the player turns invincible for a bit so they dont take damage
     [SerializeField, ReadOnly] bool invincible = false;
     [SerializeField] float invincibleTime;  //how long the player stays invincible
     [SerializeField] float flashingSpeed;  //how fast the player flashes when hes invincible
-
-    //Player Max and current health
-    [SerializeField] int MaxHealth;
-    [SerializeField] int currentHealth;
 
     //how far and how fast the player gets knockedback
     [SerializeField, Range(0f, 5.0f)] float knockbackDistance;
@@ -33,6 +41,10 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] float InjectionTime;
     [SerializeField, ReadOnly] bool injecting = false;
 
+    [Header("Unity Assignments")]
+    //The healthbar and cooldown bar
+    [SerializeField] UltimateCircularHealthBar healthbar;
+    [SerializeField] UltimateCircularHealthBar cooldownBar;
 
     [SerializeField] Transform cam;
     [SerializeField] Transform slash;
@@ -47,6 +59,9 @@ public class PlayerCombat : MonoBehaviour
 
         //set players current health to max health
         currentHealth = MaxHealth;
+
+        healthbar.SegmentCount = MaxHealth;
+        healthbar.Color = Color.green;
     }
 
     private void Update()
@@ -67,14 +82,18 @@ public class PlayerCombat : MonoBehaviour
 
         //turns on the slash graphical effect
         slash.GetChild(0).GetComponent<Renderer>().material.color = Color.white;  //recolors slash based on weather this is a damage attack or a convert attack
-        slash.eulerAngles = new Vector3(0, cam.eulerAngles.y, 0);                 //turns slash towards player direction
+        slash.eulerAngles = new Vector3(0,cam.eulerAngles.y+ (facingRight ? 0 : +180), 0);                 //turns slash towards player direction
+        /*
         slash.localScale = Vector3.Scale((facingRight ? 1 : -1) * new Vector3(1, 0, 1), //flips the scale to face iether to the left or right of the player
-                                         slash.transform.localScale.Abs()) + new Vector3(0, 1, 0);
+                                         slash.transform.localScale.Abs()) + new Vector3(0, 1, 0);*/
         slash.gameObject.SetActive(true);  //turns on the slash
         Timer.SimpleTimer(() => slash.gameObject.SetActive(false), .2f); //turns off the slash effect after a set amount of time
 
         offCooldown = false; //Sets the attack to be on cooldown
         Timer.SimpleTimer(() => offCooldown = true, attackCooldown);//after attackCooldown seconds, the player can attack again
+        cooldownPercent = 0;
+        cooldownBar.Color = Color.grey;
+        DOTween.To(() => cooldownPercent, (x) => { cooldownPercent = x; cooldownBar.SetPercent(x); }, 1, attackCooldown).SetEase(Ease.Linear).OnComplete(() => cooldownBar.Color = Color.white);
 
         //NOW the attack checks for enemies
         Collider[] enemies = Physics.OverlapSphere(transform.position, attackRange).Where(col => col.gameObject.tag == "Zombie").ToArray();  //gets objects with the tag "Zombie" around the player
@@ -104,6 +123,9 @@ public class PlayerCombat : MonoBehaviour
 
         offCooldown = false;//Sets the attack to be on cooldown
         Timer.SimpleTimer(() => offCooldown = true, attackCooldown);//after attackCooldown seconds, the player can attack again
+        cooldownPercent = 0;
+        cooldownBar.Color = Color.grey;
+        DOTween.To(() => cooldownPercent, (x) => { cooldownPercent = x; cooldownBar.SetPercent(x); }, 1, attackCooldown).SetEase(Ease.Linear).OnComplete(()=> cooldownBar.Color = Color.white);
 
         //NOW the attack checks for enemies
         Collider[] enemies = Physics.OverlapSphere(transform.position, attackRange).Where(col => col.gameObject.tag == "Zombie").ToArray();
@@ -137,6 +159,8 @@ public class PlayerCombat : MonoBehaviour
         {
             //subtracts health from the player
             currentHealth--;
+            healthbar.SetPercent((float)currentHealth / MaxHealth);
+            if (((float)currentHealth / MaxHealth) < .33) healthbar.Color = Color.red;
             if (currentHealth <= 0) {/*============ INSERT GAME OVER ACTIONS HERE ================*/}
 
             //sets the player to be invincible, then turns off invincibility after invincibleTime seconds
