@@ -93,7 +93,12 @@ public class PlayerCombat : MonoBehaviour
         Timer.SimpleTimer(() => offCooldown = true, attackCooldown);//after attackCooldown seconds, the player can attack again
         cooldownPercent = 0;
         cooldownBar.Color = Color.grey;
-        DOTween.To(() => cooldownPercent, (x) => { cooldownPercent = x; cooldownBar.SetPercent(x); }, 1, attackCooldown).SetEase(Ease.Linear).OnComplete(() => cooldownBar.Color = Color.white);
+        DOTween.To(
+            () => cooldownPercent, 
+            (x) => { cooldownPercent = x; 
+                cooldownBar.SetPercent(x); }, 
+            1, 
+            attackCooldown).SetEase(Ease.Linear).OnComplete(() => cooldownBar.Color = Color.white);
 
         //NOW the attack checks for enemies
         Collider[] enemies = Physics.OverlapSphere(transform.position, attackRange).Where(col => col.gameObject.tag == "Zombie").ToArray();  //gets objects with the tag "Zombie" around the player
