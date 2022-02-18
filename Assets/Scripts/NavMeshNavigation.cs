@@ -18,7 +18,7 @@ public class NavMeshNavigation : MonoBehaviour
 
     private void Update()
     {
-        navMA.destination = destination.position;
+        if(destination) navMA.destination = destination.position;
         if (!canMove)
         {
             navMA.speed = 0;

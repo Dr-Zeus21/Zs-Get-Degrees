@@ -25,10 +25,13 @@ public class Zombie : MonoBehaviour
 
     [SerializeField] Transform van;
 
+    FieldOfView _FOV;
+
     private void Awake()
     {
         _mat = GetComponent<Renderer>().material;
         _navMnav = GetComponent<NavMeshNavigation>();
+        _FOV = GetComponent<FieldOfView>();
     }
     public void StartConversion(float time)
     {
@@ -60,7 +63,6 @@ public class Zombie : MonoBehaviour
                 _navMnav.baseSpeed = 2.5f;
             }));
     }
-
     public void ResetConversion()
     {
         ConversionPercent = 1;
@@ -69,6 +71,19 @@ public class Zombie : MonoBehaviour
 
     private void Update()
     {
+        if (!_navMnav.destination) transform.eulerAngles += (new Vector3(0, .5f, 0));
+        if (_FOV.visibleTargets.Count > 0)  _navMnav.destination = _FOV.visibleTargets[0];
+        
+
+
+
+
+
+
+
+
+
+        //BUTTONS
         if (startInjection)
         {
             startInjection = false;

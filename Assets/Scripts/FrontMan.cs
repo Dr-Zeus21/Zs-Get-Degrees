@@ -12,16 +12,6 @@ public class FrontMan : MonoBehaviour
     {
         FM = this;
     }
-
-    private void Start()
-    {
-        Timer.SimpleTimer(function, 5);
-    }
-
-    public void function()
-    {
-        print("lol");
-    }
     void Update()
     {
         OnUpdate?.Invoke();
