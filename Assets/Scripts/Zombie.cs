@@ -10,6 +10,9 @@ public class Zombie : MonoBehaviour
     //turns true if the zombie is able to be converted or not
     public bool convertible = false;
 
+    public bool converted = false;
+
+
     Material _mat;  //the material of the zombie
     NavMeshNavigation _navMnav;  //the NavMeshNavigation of the zombie
     [SerializeField, ReadOnly] float ConversionPercent = 0;  //whate percent of the zombie is converted
@@ -61,6 +64,8 @@ public class Zombie : MonoBehaviour
                 Syringe.transform.DOMove(syringStartPos.position, time * .1f);
                 _navMnav.destination = van;
                 _navMnav.baseSpeed = 2.5f;
+                converted = true;
+                _FOV.viewMeshFilter.gameObject.SetActive(false);
             }));
     }
     public void ResetConversion()
@@ -72,7 +77,7 @@ public class Zombie : MonoBehaviour
     private void Update()
     {
         if (!_navMnav.destination) transform.eulerAngles += (new Vector3(0, .5f, 0));
-        if (_FOV.visibleTargets.Count > 0)  _navMnav.destination = _FOV.visibleTargets[0];
+        if (_FOV.visibleTargets.Count > 0 && !converted)  _navMnav.destination = _FOV.visibleTargets[0];
         
 
 
