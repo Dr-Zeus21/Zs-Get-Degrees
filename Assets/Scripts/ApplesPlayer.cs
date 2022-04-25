@@ -19,7 +19,8 @@ public class ApplesPlayer : MonoBehaviour
     public bool canMove = true;
 
 
-
+    [SerializeField] PlayerAnimationHandler PAH;
+    [SerializeField] float movingAngle = 20;
 
 
 
@@ -29,7 +30,7 @@ public class ApplesPlayer : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
 
         //grabbing the material of the player
-        _mat = GetComponent<Renderer>().material;
+        //_mat = GetComponent<Renderer>().material;
 
 
     }
@@ -45,11 +46,23 @@ public class ApplesPlayer : MonoBehaviour
         _rb.velocity = ((Input.GetAxis("Horizontal") * MovementAxis * MovementSpeed * Time.deltaTime) + new Vector3(0, _rb.velocity.y, 0)) * canMove.Bool2Int();
     }
 
+    private void Update()
+    {
+        if (!canMove) return;
+        if (Input.GetAxisRaw("Horizontal") != 0)
+        {
+            transform.eulerAngles = new Vector3(0, (Mathf.Atan2(MovementAxis.z, -MovementAxis.x) * Mathf.Rad2Deg) + 90 + (Input.GetAxisRaw("Horizontal") == -1 ? 0 - movingAngle : 180 + movingAngle), 0);
+            PAH.Walk();
+        }
+        else PAH.Idle();
+    }
+
     public void ChangeAxis(Vector3 newAxis)
     {
         //if at an intersection, move to the center of the intersection
         if (turnable) transform.position = new Vector3(_currentIntersectionLoc.x, transform.position.y, _currentIntersectionLoc.z);
         MovementAxis = newAxis;
+        transform.eulerAngles = new Vector3(0, (Mathf.Atan2(MovementAxis.z, -MovementAxis.x) * Mathf.Rad2Deg)+90, 0);
     }
 
     //Checks if the player is at an intersection

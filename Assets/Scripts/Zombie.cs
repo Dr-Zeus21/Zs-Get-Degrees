@@ -28,11 +28,15 @@ public class Zombie : MonoBehaviour
 
     [SerializeField] Transform van;
 
+    [SerializeField] ZombieAnimationHandler ZAH;
+
     FieldOfView _FOV;
+
+    public bool stunned;
 
     private void Awake()
     {
-        _mat = GetComponent<Renderer>().material;
+        //_mat = GetComponent<Renderer>().material;
         _navMnav = GetComponent<NavMeshNavigation>();
         _FOV = GetComponent<FieldOfView>();
     }
@@ -76,9 +80,19 @@ public class Zombie : MonoBehaviour
 
     private void Update()
     {
-        if (!_navMnav.destination) transform.eulerAngles += (new Vector3(0, .5f, 0));
-        if (_FOV.visibleTargets.Count > 0 && !converted)  _navMnav.destination = _FOV.visibleTargets[0];
-        
+        //if nothing is found, rotate around
+        //if (!_navMnav.destination) transform.eulerAngles += (new Vector3(0, .5f, 0));
+
+        //if player is found, walk towards him and begin to walk
+        if (_FOV.visibleTargets.Count > 0 && !converted)
+        {
+            _navMnav.destination = _FOV.visibleTargets[0];
+            if(!stunned) ZAH.Walk();
+
+        }
+        if (stunned) _navMnav.baseSpeed = 0;
+        else _navMnav.baseSpeed = 1;
+
 
 
 
@@ -105,6 +119,10 @@ public class Zombie : MonoBehaviour
     //returns true is this attack killed the zombie
     public bool Damage(int amount)
     {
+        ZAH.Idle();
+        stunned = true;
+        Timer.SimpleTimer(() => stunned = false, .5f);
+
         health--;
         if (health <= 0)
         {

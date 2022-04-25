@@ -50,6 +50,8 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] Transform slash;
 
     Rigidbody _rb;
+
+    [SerializeField] PlayerAnimationHandler PAH;
     private void Awake()
     {
         player = GetComponent<ApplesPlayer>();
@@ -72,7 +74,7 @@ public class PlayerCombat : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)) AttackDamage();
         if (Input.GetKeyDown(KeyCode.C)) AttackConvert();
 
-        GetComponent<Renderer>().material.SetFloat("Invincible", invincible ? 1 : 0);
+        //GetComponent<Renderer>().material.SetFloat("Invincible", invincible ? 1 : 0);
     }
 
     //this attack attempts to damage the zombie rather than cure
@@ -80,14 +82,21 @@ public class PlayerCombat : MonoBehaviour
     {
         if (!offCooldown || injecting) return; //if the players attack is on cooldown, or the player is currently injecting, cancel attack
 
+        //Animation
+        PAH.Slash();
+
+        //the player cant move while attacking
+        player.canMove = false;
+        Timer.SimpleTimer(() => player.canMove = true, .7f);
+
         //turns on the slash graphical effect
         slash.GetChild(0).GetComponent<Renderer>().material.color = Color.white;  //recolors slash based on weather this is a damage attack or a convert attack
         slash.eulerAngles = new Vector3(0,cam.eulerAngles.y+ (facingRight ? 0 : +180), 0);                 //turns slash towards player direction
         /*
         slash.localScale = Vector3.Scale((facingRight ? 1 : -1) * new Vector3(1, 0, 1), //flips the scale to face iether to the left or right of the player
                                          slash.transform.localScale.Abs()) + new Vector3(0, 1, 0);*/
-        slash.gameObject.SetActive(true);  //turns on the slash
-        Timer.SimpleTimer(() => slash.gameObject.SetActive(false), .2f); //turns off the slash effect after a set amount of time
+        Timer.SimpleTimer(() => slash.gameObject.SetActive(true), .3f);//turns on the slash
+        Timer.SimpleTimer(() => slash.gameObject.SetActive(false), .6f); //turns off the slash effect after a set amount of time
 
         offCooldown = false; //Sets the attack to be on cooldown
         Timer.SimpleTimer(() => offCooldown = true, attackCooldown);//after attackCooldown seconds, the player can attack again
@@ -108,8 +117,10 @@ public class PlayerCombat : MonoBehaviour
 
         foreach (var enemy in enemies)  //for each enemy that got hit, damage them and knock them back
         {
-            enemy.GetComponent<Zombie>().Damage(attackDamage);
-            enemy.GetComponent<Rigidbody>().AddForce(Vector3.Normalize(enemy.transform.position - transform.position) * attackKnockback, ForceMode.Impulse);
+            Timer.SimpleTimer(() => {
+                enemy.GetComponent<Zombie>().Damage(attackDamage);
+                enemy.GetComponent<Rigidbody>().AddForce(Vector3.Normalize(enemy.transform.position - transform.position) * attackKnockback, ForceMode.Impulse);
+            }, .3f);
         }
     }
 
@@ -117,6 +128,9 @@ public class PlayerCombat : MonoBehaviour
     public void AttackConvert()
     {
         if (!offCooldown || injecting) return;  //if the players attack is on cooldown, or the player is currently injecting, cancel attack
+
+        //Animation
+        PAH.Slash();
 
         //turns on the slash graphical effect
         slash.GetChild(0).GetComponent<Renderer>().material.color = Color.green;//recolors slash based on weather this is a damage attack or a convert attack

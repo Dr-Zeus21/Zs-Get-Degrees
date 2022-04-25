@@ -25,6 +25,7 @@ public class NavMeshNavigation : MonoBehaviour
             return;
         }
         if (slows.Count > 0) navMA.speed = (baseSpeed * slows.OrderBy(slow => slow.SlowPercent()).First().SlowPercent());
+        
         else navMA.speed = baseSpeed;
     }
 
