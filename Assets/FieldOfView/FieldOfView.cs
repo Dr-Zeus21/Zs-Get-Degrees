@@ -23,9 +23,10 @@ public class FieldOfView : MonoBehaviour {
 	Mesh viewMesh;
 
 	void Start() {
+		/*
 		viewMesh = new Mesh ();
 		viewMesh.name = "View Mesh";
-		viewMeshFilter.mesh = viewMesh;
+		viewMeshFilter.mesh = viewMesh;*/
 
 		StartCoroutine ("FindTargetsWithDelay", .2f);
 	}
@@ -101,11 +102,12 @@ public class FieldOfView : MonoBehaviour {
 			}
 		}
 
+		/*
 		viewMesh.Clear ();
 
 		viewMesh.vertices = vertices;
 		viewMesh.triangles = triangles;
-		viewMesh.RecalculateNormals ();
+		viewMesh.RecalculateNormals ();*/
 	}
 
 
